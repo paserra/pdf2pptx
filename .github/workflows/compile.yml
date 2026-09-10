@@ -23,7 +23,7 @@ jobs:
 
     - name: Build EXE with PyInstaller
       run: |
-        pyinstaller --onefile --name pdf2pptx pdf2pptx/cli.py --hidden-import=pdf2pptx
+        pyinstaller --onefile --name pdf2pptx run.py
 
     - name: Upload Artifact
       uses: actions/upload-artifact@v4
