@@ -1,0 +1,32 @@
+name: Compile Windows EXE
+
+on:
+  workflow_dispatch: # Permette di avviare la compilazione manualmente con un click
+
+jobs:
+  build:
+    runs-on: windows-latest # Usa una macchina virtuale Windows nativa
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v4
+
+    - name: Set up Python
+      uses: actions/setup-python@v5
+      with:
+        python-version: '3.11' # Versione stabile compatibile con i pacchetti
+
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install pyinstaller .  # Installa pyinstaller e il progetto locale
+
+    - name: Build EXE with PyInstaller
+      run: |
+        pyinstaller --onefile --name pdf2pptx pdf2pptx/cli.py
+
+    - name: Upload Artifact
+      uses: actions/upload-artifact@v4
+      with:
+        name: pdf2pptx-windows-binary
+        path: dist/pdf2pptx.exe
